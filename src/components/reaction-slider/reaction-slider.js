@@ -4,7 +4,6 @@ import { Grid, Button, Heading, Text, Spinner, Box } from 'theme-ui'
 import { SvgBubbleSlider } from 'react-svg-bubble-slider'
 import Reward from 'react-rewards'
 import axios from 'axios'
-import { useCookies } from 'react-cookie'
 
 import { ReactionCount } from '../reaction-count'
 
@@ -16,22 +15,18 @@ export const ReactionSlider = ({ slug }) => {
   const [isDisabled, setIsDisabled] = useState(false)
   const [reactionMessage, setReactionMessage] = useState('')
   const [reactionEmoji, setReactionEmoji] = useState('')
-  const [cookies, setCookie] = useCookies()
 
   const handleReaction = async (reaction) => {
     setIsSubmitting(true)
 
     try {
-      const response = await axios.post('/api/add-reaction', {
-        slug: slug,
-        reaction: reaction,
-      })
-      setCookie(`${slug}`, `${slug}`)
-      ref.current.rewardMe()
-      setReactionMessage(response.data.message)
-      setReactionEmoji('🎉')
-      setIsSubmitting(false)
-      setIsDisabled(true)
+      // 💩 Benedicte start here
+      //
+      // ref.current.rewardMe()
+      // setReactionMessage(response.data.message)
+      // setReactionEmoji('🎉')
+      // setIsSubmitting(false)
+      // setIsDisabled(true)
     } catch (error) {
       setReactionMessage(error.message)
       setReactionEmoji('🚨')
@@ -40,16 +35,16 @@ export const ReactionSlider = ({ slug }) => {
     }
   }
 
-  useEffect(() => {
-    if (cookies[slug] === slug) {
-      setIsDisabled(true)
-      setReactionMessage("You've already reacted to this post!")
-      setReactionEmoji('⚠️')
-    } else {
-      setReactionMessage("If you'd like to add a reaction to this post, please do!")
-      setReactionEmoji('👇')
-    }
-  }, [cookies, slug])
+  // useEffect(() => {
+  //   if (cookies[slug] === slug) {
+  //     setIsDisabled(true)
+  //     setReactionMessage("You've already reacted to this post!")
+  //     setReactionEmoji('⚠️')
+  //   } else {
+  //     setReactionMessage("If you'd like to add a reaction to this post, please do!")
+  //     setReactionEmoji('👇')
+  //   }
+  // }, [cookies, slug])
 
   return (
     <Grid
